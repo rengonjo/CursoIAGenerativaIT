@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Ágora electoral · Maquetas de la aplicación</title>
+  <style>
+    :root {
+      --ink: #223b34;
+      --muted: #727e77;
+      --forest: #204e3f;
+      --forest-deep: #173c31;
+      --lime: #dcebb8;
+      --mint: #edf4ed;
+      --canvas: #f0f1eb;
+      --paper: #fffefa;
+      --line: #e3e6dc;
+      --warm: #f7f3e8;
+      --amber: #8d6c29;
+      --radius: 14px;
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+      color: var(--ink);
+      background: var(--canvas);
+      font-synthesis: none;
+      scroll-behavior: smooth;
+      scroll-padding-top: 84px;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    button, input, select, textarea { font: inherit; }
+    button, a, input, select, summary { -webkit-tap-highlight-color: transparent; }
+    button, a { touch-action: manipulation; }
+    button { cursor: pointer; }
+    a { color: inherit; }
+    button { color: inherit; }
+    button:disabled { cursor: default; opacity: .5; }
+    :focus-visible { outline: 3px solid #95b477; outline-offset: 4px; }
+    button { border: 0; }
+    svg.icon { width: 20px; height: 20px; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
+    .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .gallery { max-width: 1440px; margin: 0 auto; padding: 44px 40px 64px; }
+    .gallery-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; padding: 0 2px 30px; }
+    .eyebrow { display: flex; align-items: center; gap: 9px; font-size: 10px; font-weight: 700; letter-spacing: 1.7px; text-transform: uppercase; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; background: #6c9566; flex: 0 0 auto; }
+    h1 { font-size: clamp(30px, 3.2vw, 44px); line-height: 1.15; letter-spacing: -1.8px; margin: 14px 0 11px; font-weight: 630; }
+    .gallery-description { color: #66746b; font-size: 14px; margin: 0; line-height: 1.6; }
+    .prototype-meta { text-align: right; white-space: nowrap; font-size: 11px; color: var(--muted); padding-bottom: 3px; line-height: 1.9; }
+    .prototype-meta strong { display: block; font-weight: 600; color: var(--forest); }
+    .gallery-nav { position: sticky; top: 0; z-index: 10; background: rgba(240,241,235,.96); backdrop-filter: blur(12px); border-top: 1px solid #dce0d5; border-bottom: 1px solid #dce0d5; display: flex; gap: 8px; padding: 13px 0; margin-bottom: 37px; }
+    .gallery-nav a { text-decoration: none; font-size: 12px; padding: 8px 14px; border-radius: 7px; color: #647168; display: flex; gap: 11px; align-items: center; transition: background .15s; }
+    .gallery-nav a:hover { background: #e1e8d9; color: var(--forest); }
+    .gallery-nav a[aria-current="location"] { color: var(--forest-deep); background: #e0e8d8; font-weight: 600; }
+    .gallery-nav .nav-number { font-size: 10px; opacity: .65; font-variant-numeric: tabular-nums; }
+    .mock-section { margin-bottom: 48px; scroll-margin-top: 85px; }
+    .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin: 0 2px 17px; }
+    .section-heading h2 { font-size: 17px; font-weight: 600; letter-spacing: -.3px; margin: 0; display: flex; align-items: center; gap: 12px; }
+    .section-number { font-size: 11px; font-weight: 500; border: 1px solid #cdd5c7; padding: 5px 7px; border-radius: 5px; color: #738367; }
+    .section-note { color: var(--muted); font-size: 11px; }
+    .app { display: grid; grid-template-columns: 202px minmax(0,1fr); background: var(--paper); border: 1px solid #d6ddcf; border-radius: var(--radius); overflow: hidden; box-shadow: 0 4px 6px #223b3403, 0 18px 45px -22px #263e3429; }
+    .sidebar { background: #f5f6ef; border-right: 1px solid var(--line); padding: 26px 15px 17px; display: flex; flex-direction: column; min-width: 0; }
+    .brand { display: flex; align-items: center; gap: 9px; padding: 0 7px; text-decoration: none; }
+    .brand-mark { display: grid; place-items: center; background: var(--forest); color: var(--lime); width: 32px; height: 35px; border-radius: 9px 9px 9px 3px; }
+    .brand-mark svg { width: 22px; height: 22px; }
+    .brand-name { font-size: 22px; font-weight: 650; letter-spacing: -1px; }
+    .brand-name small { font-size: 9px; letter-spacing: 1.4px; font-weight: 600; display: block; margin-top: -1px; color: #788271; text-transform: uppercase; }
+    .workspace-card { margin: 29px 2px 23px; border: 1px solid #dce2d3; border-radius: 9px; padding: 12px 11px; background: #fcfcf6; }
+    .workspace-card .eyebrow { font-size: 8px; letter-spacing: 1.2px; color: #828b78; margin-bottom: 7px; }
+    .workspace-card strong { display: block; font-size: 12px; font-weight: 600; }
+    .workspace-card span { display: block; color: var(--muted); font-size: 11px; margin-top: 4px; }
+    .side-nav { display: grid; gap: 5px; }
+    .side-nav a, .side-nav button { display: flex; align-items: center; gap: 10px; padding: 11px 12px; text-decoration: none; border-radius: 7px; background: none; text-align: left; font-size: 13px; color: #677365; }
+    .side-nav .icon { width: 17px; height: 17px; }
+    .side-nav .active { background: #e3ebdb; color: var(--forest-deep); font-weight: 600; }
+    .side-nav a:hover, .side-nav button:hover { background: #e7ecdf; }
+    .nav-count { margin-left: auto; font-size: 10px; background: #e5eadd; padding: 1px 5px; border-radius: 4px; color: #5f7157; }
+    .sidebar-context { margin: 31px 11px 0; }
+    .sidebar-label { font-size: 8px; color: #8a9281; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; margin-bottom: 12px; }
+    .conversation-link { display: flex; align-items: center; gap: 8px; color: #64725e; text-decoration: none; font-size: 10px; line-height: 1.6; }
+    .conversation-link .dot { width: 4px; height: 4px; background: #899d78; }
+    .sidebar-bottom { margin-top: auto; padding-top: 52px; }
+    .knowledge-state { padding: 12px; border: 1px solid #e0e5d7; border-radius: 8px; margin-bottom: 18px; }
+    .knowledge-state strong { display: flex; gap: 6px; align-items: center; font-size: 10px; font-weight: 600; }
+    .knowledge-state p { font-size: 9px; color: #829076; margin: 6px 0 0 12px; }
+    .profile { border-top: 1px solid #dfe4d5; padding: 16px 6px 0; display: flex; gap: 9px; align-items: center; }
+    .avatar-profile { height: 29px; width: 29px; border-radius: 50%; background: #e5e6da; display: grid; place-items: center; font-size: 9px; font-weight: 600; color: #657459; }
+    .profile strong { font-size: 10px; font-weight: 600; display: block; }
+    .profile small { font-size: 9px; color: var(--muted); }
+    .app-main { min-width: 0; }
+    .app-header { height: 68px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; gap: 14px; }
+    .breadcrumb { display: flex; gap: 9px; align-items: center; font-size: 12px; color: #77836e; }
+    .breadcrumb strong { color: var(--ink); font-weight: 600; }
+    .breadcrumb .icon { width: 12px; height: 12px; color: #9aa18f; }
+    .header-tools { display: flex; align-items: center; gap: 18px; }
+    .grounded-label { display: flex; align-items: center; gap: 6px; font-size: 10px; color: #6a8064; white-space: nowrap; }
+    .grounded-label .icon { width: 14px; height: 14px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 1px solid var(--line); border-radius: 7px; background: var(--paper); color: #4c6455; padding: 9px 12px; font-size: 11px; text-decoration: none; font-weight: 500; transition: background .15s; }
+    .button:hover { background: #eef2e7; }
+    .button .icon { width: 15px; height: 15px; }
+    .button.primary { background: var(--forest); color: #fbfff5; border-color: var(--forest); }
+    .button.primary:hover { background: var(--forest-deep); }
+    .demo-banner { min-height: 34px; padding: 8px 32px; background: #f7f4ea; display: flex; align-items: center; gap: 7px; font-size: 10px; line-height: 1.5; color: #806d3d; border-bottom: 1px solid #eee9da; }
+    .demo-banner .icon { width: 12px; height: 12px; }
+    .demo-banner strong { font-weight: 600; }
+    .demo-badge { margin-left: auto; font-size: 8px; border: 1px solid #ded6be; padding: 1px 5px; border-radius: 4px; letter-spacing: .7px; font-weight: 600; }
+    .chat-intro { display: flex; align-items: center; gap: 10px; padding: 25px 0 7px; }
+    .chat-intro > .icon { width: 17px; height: 17px; color: #7c936c; }
+    .chat-intro h3 { font-size: 14px; font-weight: 600; margin: 0 0 2px; }
+    .chat-intro p { font-size: 10px; color: #899080; margin: 0; }
+    .chat-stream { padding: 0 36px 5px; max-width: 900px; margin: auto; }
+    .message-pair { margin: 22px 0 25px; }
+    .user-message { display: flex; align-items: flex-start; justify-content: flex-end; gap: 10px; margin: 0 0 19px 50px; }
+    .user-bubble { background: #f0f1eb; border: 1px solid #e8ebe1; border-radius: 11px 3px 11px 11px; padding: 12px 16px; font-size: 14px; line-height: 1.65; max-width: 680px; }
+    .user-avatar { flex: 0 0 25px; width: 25px; height: 25px; display: grid; place-items: center; background: #e9ebdf; border-radius: 50%; color: #68775d; font-size: 8px; font-weight: 600; margin-top: 2px; }
+    .assistant-message { display: flex; gap: 11px; align-items: flex-start; }
+    .assistant-avatar { width: 26px; height: 28px; flex: 0 0 26px; border-radius: 7px 7px 7px 2px; background: var(--forest); color: #d9eab6; display: grid; place-items: center; }
+    .assistant-avatar .icon { width: 17px; height: 17px; }
+    .assistant-content { min-width: 0; flex: 1; }
+    .assistant-byline { display: flex; align-items: center; gap: 9px; margin-top: 2px; margin-bottom: 7px; }
+    .assistant-byline strong { font-size: 12px; font-weight: 650; }
+    .answer-state { font-size: 9px; color: #647b5b; display: flex; align-items: center; gap: 4px; }
+    .answer-state .icon { width: 11px; height: 11px; }
+    .answer { font-size: 14px; line-height: 1.8; color: #4b5b50; margin: 0; }
+    .answer strong { font-weight: 650; color: #284638; }
+    .ref { font-size: 8px; vertical-align: super; text-decoration: none; color: var(--forest); font-weight: 700; background: #e9f0df; padding: 1px 4px; border-radius: 3px; margin-left: 3px; white-space: nowrap; }
+    .sources { margin-top: 12px; border: 1px solid #e0e5d8; border-radius: 8px; background: #fdfef9; overflow: hidden; }
+    .sources-label { display: flex; gap: 5px; align-items: center; padding: 8px 11px 5px; font-size: 9px; color: #65755b; font-weight: 650; text-transform: uppercase; letter-spacing: 1px; }
+    .sources-label .icon { width: 11px; height: 11px; }
+    .source-row { display: block; width: 100%; background: transparent; text-align: left; padding: 8px 11px 10px; border-top: 1px solid #edf0e6; }
+    .source-row:first-of-type { border-top: 0; }
+    .source-row:hover { background: #f0f5e8; }
+    .source-heading { display: flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 600; color: #3f5c44; }
+    .source-heading .icon { width: 12px; height: 12px; }
+    .source-heading .source-location { font-size: 9px; color: #65725d; font-weight: 400; margin-left: auto; white-space: nowrap; }
+    .source-heading .arrow { width: 12px; height: 12px; color: #8e9c82; }
+    .source-row blockquote { font-size: 12px; line-height: 1.6; color: #63725b; margin: 6px 18px 0; padding-left: 9px; border-left: 2px solid #d5e0c7; }
+    .answer-actions { display: flex; align-items: center; gap: 8px; margin-top: 9px; }
+    .icon-button { display: inline-flex; align-items: center; justify-content: center; height: 25px; width: 25px; border-radius: 5px; color: #8c9783; background: transparent; }
+    .icon-button:hover { background: #eaf0e0; color: var(--forest); }
+    .icon-button .icon { width: 13px; height: 13px; }
+    .answer-actions .action-note { color: #8d9685; font-size: 8px; }
+    .composer-area { padding: 8px 36px 21px; max-width: 900px; margin: auto; }
+    .suggestions { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; padding-left: 37px; }
+    .suggestion { border: 1px solid #e1e6d8; background: #fffefa; color: #798871; padding: 6px 9px; border-radius: 6px; font-size: 9px; display: flex; align-items: center; gap: 5px; }
+    .suggestion:hover { background: #f0f5e6; color: var(--forest); }
+    .suggestion .icon { width: 11px; height: 11px; }
+    .composer { border: 1px solid #d7dfce; border-radius: 11px; padding: 11px 12px 10px 16px; background: #fffefa; box-shadow: 0 2px 8px #263e3405; }
+    .composer:focus-within { border-color: #8fa37a; box-shadow: 0 0 0 3px #edf1e4; }
+    .composer-input { width: 100%; border: 0; background: transparent; color: var(--ink); font-size: 14px; padding: 2px 0 11px; outline: none; }
+    .composer-input::placeholder { color: #a0a793; }
+    .composer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .composer-context { display: flex; align-items: center; gap: 6px; color: #7e8d72; font-size: 9px; }
+    .composer-context .icon { width: 12px; height: 12px; }
+    .send-button { height: 28px; width: 30px; display: grid; place-items: center; background: var(--forest); color: var(--lime); border-radius: 7px; }
+    .send-button:hover { background: #33644d; }
+    .send-button .icon { width: 15px; height: 15px; }
+    .composer-footnote { text-align: center; font-size: 8px; color: #939c88; line-height: 1.6; margin: 9px 0 0; }
+    .history-divider { display: flex; align-items: center; gap: 12px; color: #909b86; font-size: 8px; text-transform: uppercase; letter-spacing: 1.1px; margin: 25px 0; }
+    .history-divider::before, .history-divider::after { content: ""; height: 1px; background: #e6ebdd; flex: 1; }
+    .compact-history .message-pair { margin-bottom: 22px; }
+    .compact-history .source-row { padding-top: 6px; padding-bottom: 8px; }
+    .no-evidence { background: #f8f7f0; border: 1px solid #e4e2d3; border-radius: 9px; padding: 15px 17px; margin-top: 10px; }
+    .no-evidence-title { display: flex; align-items: center; gap: 7px; font-size: 10px; font-weight: 600; color: #8c7a48; margin-bottom: 9px; }
+    .no-evidence-title .icon { width: 14px; height: 14px; }
+    .no-evidence p { font-size: 12px; line-height: 1.8; color: #6c705c; margin: 0; }
+    .no-evidence .evidence-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin-top: 12px; padding-top: 10px; border-top: 1px solid #e7e5d8; font-size: 9px; color: #92917c; }
+    .no-evidence .evidence-footer .icon { width: 12px; height: 12px; }
+    .no-evidence .evidence-footer a { margin-left: auto; color: #526d4b; text-underline-offset: 3px; }
+    .content-page { padding: 31px 32px 32px; min-height: 630px; }
+    .page-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+    .page-title-row h3 { font-size: 25px; line-height: 1.2; font-weight: 620; letter-spacing: -.8px; margin: 0 0 9px; }
+    .page-subtitle { color: #738068; font-size: 12px; line-height: 1.7; margin: 0; }
+    .stats { display: grid; grid-template-columns: repeat(3,1fr); border: 1px solid var(--line); border-radius: 9px; background: #fafbf5; margin-bottom: 24px; }
+    .stat { padding: 17px 21px; border-right: 1px solid var(--line); display: flex; align-items: center; gap: 13px; }
+    .stat:last-child { border-right: 0; }
+    .stat-icon { color: #7a906c; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 8px; background: #edf2e4; }
+    .stat-icon .icon { width: 17px; height: 17px; }
+    .stat strong { display: block; font-size: 21px; font-weight: 600; line-height: 1.2; }
+    .stat span { font-size: 9px; color: #8c9582; }
+    .search-toolbar { display: flex; gap: 10px; margin-bottom: 15px; }
+    .search-field { flex: 1; border: 1px solid #dfe5d6; border-radius: 7px; display: flex; align-items: center; gap: 8px; padding: 0 12px; min-width: 0; background: #fffefa; }
+    .search-field .icon { width: 16px; height: 16px; color: #98a08e; }
+    .search-field:focus-within { border-color: #839e6c; }
+    .search-field input { width: 100%; padding: 12px 0; font-size: 12px; color: var(--ink); background: transparent; border: 0; outline: none; min-width: 0; }
+    .search-field input::placeholder { color: #9bA38f; }
+    .select-filter { border: 1px solid #dfe5d6; border-radius: 7px; background: #fffefa; font-size: 10px; padding: 8px 30px 8px 11px; color: #6f7d64; max-width: 170px; }
+    .table-caption { display: flex; align-items: center; justify-content: space-between; color: #909884; font-size: 9px; margin: 0 2px 11px; gap: 10px; }
+    .table-wrapper { border: 1px solid var(--line); border-radius: 9px; overflow-x: auto; }
+    .documents-table { width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap; }
+    .documents-table th { font-size: 8px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; color: #909b83; background: #f7f9f1; padding: 12px 14px; border-bottom: 1px solid #e4e9db; }
+    .documents-table td { padding: 17px 14px; border-bottom: 1px solid #edf0e6; font-size: 11px; color: #718163; }
+    .documents-table tbody tr:last-child td { border-bottom: none; }
+    .documents-table tbody tr:hover { background: #fbfcf7; }
+    .document-name { display: flex; align-items: center; gap: 10px; background: transparent; text-align: left; padding: 0; }
+    .file-icon { background: #f0f4e7; border: 1px solid #e3e9d8; width: 31px; height: 36px; border-radius: 6px; display: grid; place-items: center; flex: 0 0 auto; color: #80966c; }
+    .file-icon .icon { width: 17px; height: 17px; }
+    .document-name strong { display: block; font-size: 12px; color: #496143; font-weight: 550; white-space: normal; }
+    .document-name small { display: block; font-size: 8px; color: #99a18e; margin-top: 5px; }
+    .type-badge { background: #f1f3eb; border: 1px solid #e7ebdf; color: #809072; font-size: 8px; padding: 3px 6px; border-radius: 4px; }
+    .available { color: #6e8760; font-size: 9px; display: flex; gap: 5px; align-items: center; }
+    .available .dot { width: 5px; height: 5px; background: #7f9c69; }
+    .empty-state { padding: 36px 20px; text-align: center; color: #7e8b72; font-size: 12px; }
+    .library-note { display: flex; gap: 11px; background: #f1f5e8; border: 1px solid #e3eada; border-radius: 8px; padding: 14px 16px; margin-top: 21px; }
+    .library-note > .icon { width: 17px; height: 17px; color: #7d956a; margin-top: 1px; }
+    .library-note strong { display: block; font-size: 10px; font-weight: 600; color: #586f4a; margin-bottom: 4px; }
+    .library-note p { font-size: 11px; line-height: 1.7; color: #6e805f; margin: 0; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; color: #7d8f70; text-decoration: none; margin-bottom: 20px; }
+    .back-link .icon { width: 13px; height: 13px; }
+    .document-title { display: flex; align-items: center; gap: 13px; margin-bottom: 21px; }
+    .document-title .file-icon { width: 42px; height: 48px; border-radius: 8px; }
+    .document-title .file-icon .icon { width: 22px; height: 22px; }
+    .document-title h3 { font-size: 22px; font-weight: 600; letter-spacing: -.6px; margin: 0 0 6px; }
+    .document-title .page-subtitle { font-size: 10px; }
+    .document-title .button { margin-left: auto; flex-shrink: 0; }
+    .document-tabs { display: flex; gap: 25px; border-bottom: 1px solid #e2e7d8; margin-bottom: 23px; }
+    .document-tab { border-bottom: 2px solid transparent; padding: 0 0 11px; background: transparent; color: #98a08b; font-size: 10px; }
+    .document-tab[aria-selected="true"] { color: var(--forest); border-bottom-color: var(--forest); font-weight: 600; }
+    .document-tab small { font-size: 8px; background: #edf2e3; border-radius: 3px; padding: 2px 4px; margin-left: 4px; }
+    .document-layout { display: grid; grid-template-columns: minmax(0,1fr) 200px; gap: 21px; align-items: start; }
+    .document-paper { padding: 29px 29px 22px; border: 1px solid #e4e8dc; border-radius: 8px; background: white; min-height: 420px; box-shadow: 0 2px 5px #243a3103; }
+    .document-paper .paper-eyebrow { color: #a0a590; text-transform: uppercase; letter-spacing: 1.5px; font-size: 7px; margin-bottom: 14px; }
+    .document-paper h4 { font-size: 18px; font-weight: 600; line-height: 1.4; letter-spacing: -.4px; margin: 0 0 9px; }
+    .document-paper .paper-intro { font-size: 12px; line-height: 1.8; color: #758065; padding-bottom: 20px; border-bottom: 1px solid #eceee5; margin: 0 0 20px; }
+    .document-fragment { padding: 12px 0; scroll-margin-top: 110px; border: 1px solid transparent; border-radius: 6px; }
+    .document-fragment h5 { font-size: 12px; font-weight: 600; color: #5c6e50; margin: 0 0 7px; }
+    .document-fragment p { font-size: 12px; line-height: 1.9; color: #66765a; margin: 0; }
+    .document-fragment.is-highlighted { padding: 13px 15px; margin: 8px -15px; border-color: #d8e3c2; background: #f0f6e5; }
+    .highlight-label { display: inline-flex; align-items: center; gap: 5px; color: #6d8a4b; text-transform: uppercase; font-size: 7px; letter-spacing: .7px; font-weight: 600; margin-bottom: 9px; }
+    .highlight-label .icon { width: 10px; height: 10px; }
+    .paper-footer { border-top: 1px solid #ebeee2; margin-top: 19px; padding-top: 14px; display: flex; justify-content: space-between; color: #a1a794; font-size: 8px; }
+    .metadata-card { border: 1px solid #e2e8d8; border-radius: 8px; padding: 16px; margin-bottom: 13px; background: #fafbf5; }
+    .metadata-card h4 { font-size: 10px; font-weight: 600; margin: 0 0 17px; }
+    .metadata-card dl { margin: 0; }
+    .metadata-card dt { font-size: 8px; color: #9ba38c; margin-top: 13px; }
+    .metadata-card dd { margin: 4px 0 0; color: #657b55; font-size: 10px; }
+    .document-help { padding: 5px 5px 0; font-size: 9px; line-height: 1.8; color: #8f9c80; }
+    .document-help .icon { width: 13px; height: 13px; color: #809c62; vertical-align: -3px; margin-right: 3px; }
+    .document-help a { display: block; margin-top: 9px; color: #5f7b4b; text-underline-offset: 3px; }
+    .fragment-list { display: grid; gap: 12px; }
+    .fragment-card { border: 1px solid #e0e7d4; border-radius: 8px; padding: 15px; background: #fffefa; }
+    .fragment-card small { font-size: 8px; color: #8c9b7d; letter-spacing: .5px; }
+    .fragment-card h5 { font-size: 11px; margin: 9px 0; }
+    .fragment-card p { font-size: 11px; line-height: 1.8; color: #76876a; margin: 0; }
+    .gallery-footer { display: flex; justify-content: space-between; gap: 20px; padding: 0 2px; font-size: 10px; color: #8b9581; line-height: 1.7; }
+    .gallery-footer strong { color: #6f805f; font-weight: 600; }
+    .gallery-footer a { text-underline-offset: 4px; }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 20px); background: var(--forest-deep); color: #f0f5e5; padding: 12px 20px; border-radius: 9px; font-size: 12px; box-shadow: 0 5px 25px #18352830; opacity: 0; pointer-events: none; z-index: 30; transition: opacity .2s, transform .2s; max-width: calc(100% - 32px); text-align: center; }
+    .toast.visible { opacity: 1; transform: translate(-50%,0); }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    [hidden] { display: none !important; }
+    @media (min-width: 1500px) { .gallery { padding-top: 52px; } .chat-stream, .composer-area { max-width: 940px; } }
+    @media (max-width: 1120px) {
+      .gallery { padding: 30px 24px 40px; }
+      .app { grid-template-columns: 173px minmax(0,1fr); }
+      .sidebar { padding-left: 10px; padding-right: 10px; }
+      .brand-name { font-size: 21px; }
+      .app-header { padding: 0 24px; }
+      .demo-banner { padding-left: 24px; padding-right: 24px; }
+      .header-tools { gap: 12px; }
+      .chat-stream, .composer-area { padding-left: 24px; padding-right: 24px; }
+      .content-page { padding: 27px 24px; }
+      .documents-table th, .documents-table td { padding-left: 10px; padding-right: 10px; }
+      .document-layout { grid-template-columns: minmax(0,1fr) 165px; gap: 15px; }
+      .metadata-card { padding: 13px; }
+      .document-paper { padding: 24px; }
+      .grounded-label { font-size: 9px; }
+      .source-heading .source-location { font-size: 8px; }
+    }
+    @media (max-width: 850px) {
+      .app { grid-template-columns: 155px minmax(0,1fr); }
+      .sidebar { padding: 23px 9px 16px; }
+      .brand { gap: 7px; padding: 0 4px; }
+      .brand-name { font-size: 20px; }
+      .brand-mark { width: 28px; height: 31px; }
+      .brand-name small { font-size: 8px; }
+      .side-nav a, .side-nav button { font-size: 11px; padding-left: 9px; }
+      .workspace-card { padding: 11px 8px; }
+      .workspace-card strong { font-size: 11px; }
+      .workspace-card span { font-size: 10px; }
+      .sidebar-context { margin-left: 8px; }
+      .grounded-label { display: none; }
+      .app-header { padding: 0 18px; }
+      .chat-stream, .composer-area { padding-left: 18px; padding-right: 18px; }
+      .source-heading .source-location { display: none; }
+      .source-heading .arrow { margin-left: auto; }
+      .content-page { padding: 25px 20px; }
+      .document-layout { grid-template-columns: 1fr; }
+      .document-aside { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+      .metadata-card dl { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+      .metadata-card dt { margin-top: 8px; }
+      .document-title h3 { font-size: 18px; }
+      .document-title { flex-wrap: wrap; }
+      .stat { padding: 14px; gap: 8px; }
+      .stat-icon { width: 26px; height: 26px; }
+      .stat strong { font-size: 18px; }
+      .stat span { font-size: 8px; }
+      .gallery-nav { gap: 0; }
+      .gallery-nav a { padding: 8px 10px; font-size: 11px; }
+    }
+    @media (max-width: 620px) {
+      :root { scroll-padding-top: 70px; }
+      .gallery { padding: 25px 12px; }
+      .gallery-header { align-items: start; padding: 0 5px 23px; }
+      h1 { letter-spacing: -1px; }
+      .gallery-description { font-size: 12px; }
+      .prototype-meta { display: none; }
+      .eyebrow { font-size: 8px; }
+      .gallery-nav { overflow-x: auto; margin-bottom: 27px; padding: 10px 0; white-space: nowrap; }
+      .gallery-nav a { gap: 6px; font-size: 10px; padding: 7px 9px; }
+      .gallery-nav .nav-number { font-size: 8px; }
+      .section-heading h2 { font-size: 14px; gap: 8px; }
+      .section-note { display: none; }
+      .app { grid-template-columns: 1fr; border-radius: 10px; }
+      .sidebar { display: none; }
+      .app-header { height: 58px; padding: 0 15px; }
+      .breadcrumb { gap: 6px; font-size: 10px; }
+      .breadcrumb > span { display: none; }
+      .header-tools .button { font-size: 9px; padding: 7px 9px; }
+      .demo-banner { padding: 8px 15px; font-size: 8px; gap: 5px; }
+      .demo-badge { display: none; }
+      .chat-stream, .composer-area { padding-left: 15px; padding-right: 15px; }
+      .chat-intro { padding-top: 19px; }
+      .chat-intro p { font-size: 9px; }
+      .user-message { margin-left: 25px; gap: 7px; }
+      .user-bubble { padding: 10px 12px; font-size: 13px; }
+      .assistant-message { gap: 8px; }
+      .assistant-avatar { width: 23px; height: 25px; flex-basis: 23px; }
+      .answer { font-size: 13px; }
+      .answer-state { font-size: 7px; }
+      .source-heading { font-size: 11px; gap: 5px; }
+      .source-row blockquote { font-size: 11px; margin-left: 0; margin-right: 0; }
+      .source-row { padding-left: 9px; padding-right: 9px; }
+      .suggestions { padding-left: 0; }
+      .suggestion { font-size: 8px; }
+      .composer-context { font-size: 8px; }
+      .composer-footnote { font-size: 7px; }
+      .content-page { padding: 23px 15px; min-height: auto; }
+      .page-title-row h3 { font-size: 23px; }
+      .page-title-row .button { padding: 8px; font-size: 9px; }
+      .stats { margin-bottom: 19px; }
+      .stat { padding: 12px 9px; gap: 8px; }
+      .stat-icon { display: none; }
+      .stat strong { font-size: 20px; }
+      .stat span { font-size: 8px; }
+      .search-toolbar { flex-wrap: wrap; }
+      .search-field { flex-basis: 100%; }
+      .select-filter { max-width: none; flex: 1; }
+      .table-caption { font-size: 8px; }
+      .documents-table th, .documents-table td { padding: 13px 10px; }
+      .documents-table th:nth-child(3), .documents-table td:nth-child(3) { display: none; }
+      .document-name strong { font-size: 10px; min-width: 135px; }
+      .file-icon { width: 25px; height: 30px; }
+      .document-name { gap: 7px; }
+      .documents-table th:nth-child(2), .documents-table td:nth-child(2) { display: none; }
+      .document-title { gap: 10px; }
+      .document-title h3 { font-size: 17px; }
+      .document-title .button { margin-left: 0; }
+      .document-paper { padding: 23px; }
+      .document-paper h4 { font-size: 17px; }
+      .document-aside { grid-template-columns: 1fr; }
+      .document-help { padding-bottom: 12px; }
+      .gallery-footer { font-size: 9px; flex-direction: column; gap: 6px; }
+      .mock-section { margin-bottom: 32px; }
+    }
+    @media (prefers-reduced-motion: reduce) { :root { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; } }
+    @media print {
+      body { background: white; }
+      .gallery { padding: 0; max-width: none; }
+      .gallery-nav, .composer-area, .answer-actions, .toast { display: none; }
+      .app { box-shadow: none; }
+      .mock-section { break-before: page; }
+      .message-pair, .source-row { break-inside: avoid; }
+      .gallery-footer { margin-top: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+    <symbol id="i-agora" viewBox="0 0 24 24"><path d="M5 5.5h14v11H9l-4 3z"/><path d="m9 10 2.3 2.3L15.5 8"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-6 3V6a2 2 0 0 1 2-2Z"/><path d="M8 9h8M8 13h5"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></symbol>
+    <symbol id="i-library" viewBox="0 0 24 24"><path d="M4 4v16h4V4ZM11 4v16h4V4ZM18 5l3 14M18 20h4"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></symbol>
+    <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4 19a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2L14 9V3M7 15h10"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5m-6 6 6-6 6 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="m10 13 4-4M8 15l-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0M16 9l1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0" transform="translate(1 0) scale(.9)"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5ZM20 2v4M18 4h4"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7v.1"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></symbol>
+    <symbol id="i-fragments" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="7" rx="2"/><rect x="4" y="14" width="16" height="7" rx="2"/><path d="M8 6.5h8M8 17.5h8"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  </defs></svg>
+
+  <div class="gallery" id="inicio">
+    <header class="gallery-header">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Proyecto final · Asistente documental</div>
+        <h1>Ágora electoral<span style="color:#9aa58f">.</span></h1>
+        <p class="gallery-description">Tus documentos. Respuestas con evidencia. Una conversación a la vez.</p>
+      </div>
+      <div class="prototype-meta"><strong>Maquetas de la aplicación · v.01</strong>4 pantallas · Prototipo local interactivo<br>Escenario electoral ficticio: 29 de noviembre de 2026</div>
+    </header>
+    <nav class="gallery-nav" aria-label="Pantallas de la maqueta">
+      <a href="#conversacion" aria-current="location"><span class="nav-number">01</span> Conversación</a>
+      <a href="#sin-evidencia"><span class="nav-number">02</span> Sin evidencia</a>
+      <a href="#fuentes"><span class="nav-number">03</span> Mis fuentes</a>
+      <a href="#documento"><span class="nav-number">04</span> El documento</a>
+    </nav>
+    <main id="mockups"></main>
+    <noscript><p>Activa JavaScript para ver las cuatro maquetas interactivas. Todo el contenido y el código están incluidos en este único archivo.</p></noscript>
+    <footer class="gallery-footer">
+      <span><strong>Ágora electoral</strong> · Práctica de asistente sobre documentación</span>
+      <span>Contenido inventado para la maqueta · Sin conexión a servicios externos · <a href="#inicio">Volver arriba ↑</a></span>
+    </footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    'use strict';
+    // Prototipo autónomo: todas las fuentes son ficticias y están incluidas aquí.
+    // El chat usa respuestas predefinidas. No consulta una IA ni datos en Internet.
+    const icon = name => `<svg class="icon" aria-hidden="true"><use href="#i-${name}"></use></svg>`;
+    const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+    const normalize = value => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    const documents = [
+      {
+        id: 'DOC-001', title: 'Convocatoria de elecciones generales', type: 'Registro', format: 'JSON', size: '2 KB', date: '02/11/2026', count: 2,
+        description: 'Registro de demostración que recoge la fecha de la convocatoria y su ámbito.',
+        fragments: [
+          { id: 'convocatoria-fecha', title: '01. Fecha de celebración', location: 'Registro 01 · campo «fecha»', text: 'Las elecciones generales se celebrarán el domingo 29 de noviembre de 2026.' },
+          { id: 'convocatoria-ambito', title: '02. Ámbito de la convocatoria', location: 'Registro 01 · campo «ámbito»', text: 'La convocatoria comprende la elección de representantes al Congreso de los Diputados y al Senado en todo el territorio español.' }
+        ]
+      },
+      {
+        id: 'DOC-002', title: 'Guía de la jornada electoral', type: 'Guía', format: 'TXT', size: '4 KB', date: '03/11/2026', count: 4,
+        description: 'Horarios de votación, cierre de los colegios y publicación del recuento en el escenario de práctica.',
+        fragments: [
+          { id: 'guia-horario', title: '01. Horario de votación', location: 'Apartado 1 · Horario', text: 'La votación se desarrollará de 09:00 a 20:00 horas, según la hora local de cada colegio electoral.' },
+          { id: 'guia-cierre', title: '02. Cierre de las mesas', location: 'Apartado 2 · Cierre', text: 'Al finalizar la votación, cada mesa iniciará el escrutinio de los votos depositados. El cierre de los colegios de Canarias se producirá a las 21:00, hora peninsular.' },
+          { id: 'guia-resultados', title: '03. Publicación de los primeros resultados', location: 'Apartado 3 · Resultados', text: 'Los primeros resultados provisionales procedentes del recuento se publicarán a partir de las 21:00, hora peninsular, una vez cerrados todos los colegios electorales. La hora es orientativa y depende del avance del escrutinio.' },
+          { id: 'guia-provisionales', title: '04. Carácter provisional del recuento', location: 'Apartado 4 · Alcance', text: 'Los datos publicados durante la noche electoral son provisionales. La proclamación de resultados oficiales se realizará tras completar las actuaciones previstas en el calendario electoral de esta demostración.' }
+        ]
+      },
+      {
+        id: 'DOC-003', title: 'Calendario de constitución de las Cortes', type: 'Calendario', format: 'TXT', size: '2 KB', date: '04/11/2026', count: 2,
+        description: 'Hitos institucionales previstos en la convocatoria ficticia, desde la proclamación de resultados hasta la sesión constitutiva.',
+        fragments: [
+          { id: 'calendario-proclamacion', title: '01. Proclamación de resultados oficiales', location: 'Hito 07 · Proclamación', text: 'La proclamación de los resultados oficiales precederá a las sesiones constitutivas del Congreso de los Diputados y del Senado.' },
+          { id: 'calendario-cortes', title: '02. Constitución de las nuevas Cortes', location: 'Hito 08 · Sesión constitutiva', text: '22 de diciembre de 2026, a las 10:00 horas: sesiones constitutivas del Congreso de los Diputados y del Senado, una vez proclamados los resultados oficiales.' }
+        ]
+      },
+      {
+        id: 'DOC-004', title: 'Cómo interpretar los datos del escrutinio', type: 'Ficha', format: 'TXT', size: '3 KB', date: '05/11/2026', count: 3,
+        description: 'Glosario de los campos de los registros de resultados y de su actualización.',
+        fragments: [
+          { id: 'ficha-votos', title: '01. Votos contabilizados', location: 'Ficha 04 · Votos', text: 'El campo votos contabilizados recoge los votos incorporados al recuento en el momento de la actualización.' },
+          { id: 'ficha-escanos', title: '02. Escaños', location: 'Ficha 04 · Escaños', text: 'El campo escaños muestra la asignación provisional de representantes a cada candidatura según los votos contabilizados.' },
+          { id: 'ficha-actualizacion', title: '03. Actualización del registro', location: 'Ficha 04 · Actualización', text: 'Cada registro incluye la hora de actualización y el porcentaje de mesas escrutadas. Los valores pueden cambiar mientras avance el recuento.' }
+        ]
+      }
+    ];
+    const conversations = [
+      {
+        question: '¿Qué día y en qué horario se celebran las próximas elecciones generales en España?',
+        answer: 'Según la documentación cargada, se celebrarán el <strong>domingo 29 de noviembre de 2026</strong>.{0} La votación será de <strong>09:00 a 20:00 h, hora local de cada colegio electoral</strong>.{1}',
+        refs: [['DOC-001', 'convocatoria-fecha'], ['DOC-002', 'guia-horario']]
+      },
+      {
+        question: '¿A partir de qué hora se podrán conocer los primeros resultados reales?',
+        answer: 'Los primeros resultados procedentes del recuento se podrán conocer <strong>a partir de las 21:00 h, hora peninsular</strong>, una vez cerrados todos los colegios electorales. Serán <strong>resultados provisionales</strong>; la hora es orientativa y dependerá del avance del escrutinio.{0}',
+        refs: [['DOC-002', 'guia-resultados']]
+      },
+      {
+        question: 'Una vez proclamados los resultados oficiales, ¿cuándo se constituyen las nuevas Cortes?',
+        answer: 'El calendario cargado fija la constitución de las nuevas Cortes para el <strong>22 de diciembre de 2026, a las 10:00 h</strong>. Las sesiones constitutivas del Congreso y del Senado se celebrarán una vez proclamados los resultados oficiales.{0}',
+        refs: [['DOC-003', 'calendario-cortes']]
+      }
+    ];
+    const unknownQuestion = '¿Quién va a gobernar tras las próximas elecciones generales?';
+    const findDocument = id => documents.find(doc => doc.id === id);
+    const findFragment = (docId, fragmentId) => findDocument(docId).fragments.find(fragment => fragment.id === fragmentId);
+
+    function sidebar(active) {
+      return `<aside class="sidebar" aria-label="Menú de la aplicación">
+        <a href="#inicio" class="brand" aria-label="Ágora electoral, inicio"><span class="brand-mark">${icon('agora')}</span><span class="brand-name">ágora<small>electoral</small></span></a>
+        <div class="workspace-card"><div class="eyebrow">Mi colección</div><strong>Generales de España</strong><span>29 noviembre · 2026</span></div>
+        <nav class="side-nav" aria-label="Navegación de la aplicación">
+          <button type="button" data-action="new-chat">${icon('plus')} Nueva conversación</button>
+          <a href="#conversacion" class="${active === 'chat' ? 'active' : ''}" ${active === 'chat' ? 'aria-current="page"' : ''}>${icon('chat')} Conversación</a>
+          <a href="#fuentes" class="${active === 'sources' ? 'active' : ''}" ${active === 'sources' ? 'aria-current="page"' : ''}>${icon('library')} Mis fuentes <span class="nav-count">4</span></a>
+        </nav>
+        <div class="sidebar-context"><div class="sidebar-label">Conversación reciente</div><a class="conversation-link" href="#conversacion"><span class="dot"></span> Fechas y jornada electoral</a></div>
+        <div class="sidebar-bottom"><div class="knowledge-state"><strong><span class="dot"></span> Colección disponible</strong><p>4 fuentes · 11 fragmentos</p></div><div class="profile"><div class="avatar-profile">JR</div><div><strong>Mi espacio de trabajo</strong><small>Proyecto del curso</small></div></div></div>
+      </aside>`;
+    }
+    function appShell(content, active = 'chat', current = 'Conversación') {
+      return `<div class="app">${sidebar(active)}<div class="app-main">
+        <header class="app-header"><div class="breadcrumb"><span>Generales 2026</span>${icon('chevron')}<strong>${current}</strong></div><div class="header-tools"><span class="grounded-label">${icon('shield')} Solo tus documentos</span><a class="button" href="${active === 'chat' ? '#fuentes' : '#conversacion'}">${icon(active === 'chat' ? 'library' : 'chat')}${active === 'chat' ? 'Ver fuentes' : 'Ir al chat'}</a></div></header>
+        <div class="demo-banner">${icon('flask')}<span><strong>Escenario ficticio.</strong> Todos los datos y documentos de esta maqueta son inventados.</span><span class="demo-badge">DEMO</span></div>
+        ${content}
+      </div></div>`;
+    }
+    function sourceCard(refs) {
+      return `<div class="sources"><div class="sources-label">${icon('link')} Fuentes de esta respuesta · ${refs.length}</div>${refs.map(([docId, fragmentId], i) => {
+        const doc = findDocument(docId), fragment = findFragment(docId, fragmentId);
+        return `<button type="button" class="source-row" data-doc="${docId}" data-fragment="${fragmentId}" aria-label="Abrir ${escapeHTML(doc.title)}, ${escapeHTML(fragment.location)}"><span class="source-heading">${icon('doc')}<span>[${i+1}] ${doc.title}</span><span class="source-location">${fragment.location}</span><svg class="icon arrow" aria-hidden="true"><use href="#i-chevron"></use></svg></span><blockquote>«${fragment.text}»</blockquote></button>`;
+      }).join('')}</div>`;
+    }
+    function userMessage(question) {
+      return `<div class="user-message"><div class="user-bubble">${escapeHTML(question)}</div><span class="user-avatar" aria-label="Tú">TÚ</span></div>`;
+    }
+    function messagePair(item, question = item.question) {
+      const answer = item.answer.replace(/\{(\d+)\}/g, (_, index) => {
+        const [docId, fragmentId] = item.refs[Number(index)];
+        return `<a class="ref" href="#documento" data-doc="${docId}" data-fragment="${fragmentId}" aria-label="Ver fuente ${Number(index)+1}">[${Number(index)+1}]</a>`;
+      });
+      return `<article class="message-pair">${userMessage(question)}<div class="assistant-message"><span class="assistant-avatar">${icon('agora')}</span><div class="assistant-content"><div class="assistant-byline"><strong>Ágora</strong><span class="answer-state">${icon('check')} Respuesta con fuentes</span></div><p class="answer">${answer}</p>${sourceCard(item.refs)}<div class="answer-actions"><button type="button" class="icon-button" data-action="copy-answer" aria-label="Copiar respuesta y fuentes" title="Copiar respuesta y fuentes">${icon('copy')}</button><span class="action-note">Información de tu colección</span></div></div></div></article>`;
+    }
+    function unknownPair(question = unknownQuestion) {
+      return `<article class="message-pair">${userMessage(question)}<div class="assistant-message"><span class="assistant-avatar">${icon('agora')}</span><div class="assistant-content"><div class="assistant-byline"><strong>Ágora</strong><span class="answer-state" style="color:#9a8a5e">Sin evidencia suficiente</span></div><p class="answer"><strong>No consta en la documentación disponible${question === unknownQuestion ? ' quién gobernará tras las próximas elecciones generales' : ' información que permita responder a esa pregunta'}.</strong> No dispongo de datos que permitan dar una respuesta fundamentada.</p><div class="no-evidence"><div class="no-evidence-title">${icon('search')} No se han encontrado fragmentos que respondan</div><p>La colección contiene fechas de la convocatoria, horarios de votación, información sobre el recuento y el calendario de las Cortes.${question === unknownQuestion ? ' No contiene información sobre un futuro Gobierno ni sobre acuerdos de investidura.' : ''}</p><div class="evidence-footer">${icon('library')} 4 fuentes revisadas · 0 fragmentos pertinentes<a href="#fuentes">Revisar mis fuentes</a></div></div><div class="answer-actions"><button type="button" class="icon-button" data-action="copy-answer" aria-label="Copiar respuesta" title="Copiar respuesta">${icon('copy')}</button><span class="action-note">Sin citas: no hay evidencia para esta consulta</span></div></div></div></article>`;
+    }
+    function composer(id, noEvidence = false) {
+      return `<div class="composer-area"><div class="suggestions">${(noEvidence ? [['¿Cuándo se constituyen las Cortes?', 'Constitución de las Cortes'], ['¿Cuál es el horario de votación?', 'Horario de votación']] : [[unknownQuestion, '¿Quién va a gobernar?'], ['¿A qué hora hay resultados?', 'Primeros resultados']]).map(([question,label]) => `<button type="button" class="suggestion" data-question="${escapeHTML(question)}">${icon('plus')}${label}</button>`).join('')}</div>
+        <form class="composer" data-chat="${id}"><label class="sr-only" for="input-${id}">Pregunta sobre la documentación electoral</label><input class="composer-input" id="input-${id}" name="question" placeholder="Pregunta sobre la documentación electoral…" autocomplete="off" maxlength="700" required><div class="composer-bottom"><span class="composer-context">${icon('library')} Generales 2026 <span style="color:#c0c8b4">/</span> 4 fuentes disponibles</span><button class="send-button" type="submit" aria-label="Enviar pregunta">${icon('up')}</button></div></form><p class="composer-footnote">Demostración con respuestas predefinidas. Solo responde con los datos de la colección.</p>
+      </div>`;
+    }
+    function chatPage(id, noEvidence = false) {
+      return appShell(`<div class="chat-stream"><div class="chat-intro">${icon('spark')}<div><h3>Fechas y jornada electoral</h3><p>Una conversación basada en tu colección · ${noEvidence ? '4' : '3'} consultas</p></div></div><div class="messages ${noEvidence ? 'compact-history' : ''}" id="messages-${id}" aria-label="Historial de la conversación">${conversations.map(item => messagePair(item)).join('')}${noEvidence ? `<div class="history-divider">La conversación continúa</div>${unknownPair()}` : ''}</div><div class="sr-only chat-announcement" role="status" aria-live="polite"></div></div>${composer(id, noEvidence)}`);
+    }
+    function libraryPage() {
+      return appShell(`<div class="content-page"><div class="page-title-row"><div><h3>Mis fuentes</h3><p class="page-subtitle">La documentación que da forma a cada respuesta.</p></div><button class="button" type="button" data-action="download-collection">${icon('download')} Descargar colección</button></div>
+        <div class="stats"><div class="stat"><div class="stat-icon">${icon('doc')}</div><div><strong>4</strong><span>Documentos y registros</span></div></div><div class="stat"><div class="stat-icon">${icon('fragments')}</div><div><strong>11</strong><span>Fragmentos consultables</span></div></div><div class="stat"><div class="stat-icon">${icon('check')}</div><div><strong>100<span style="font-size:13px"> %</span></strong><span>Fuentes disponibles</span></div></div></div>
+        <div class="search-toolbar"><label class="search-field">${icon('search')}<span class="sr-only">Buscar en los documentos y sus fragmentos</span><input id="source-search" type="search" placeholder="Buscar por título, contenido o identificador…" autocomplete="off"></label><label class="sr-only" for="type-filter">Filtrar por tipo de documento</label><select class="select-filter" id="type-filter"><option value="">Todos los tipos</option><option>Registro</option><option>Guía</option><option>Calendario</option><option>Ficha</option></select><label class="sr-only" for="sort-sources">Ordenar documentos</label><select class="select-filter" id="sort-sources"><option value="id">Orden: identificador</option><option value="title">Orden: título A–Z</option></select></div>
+        <div class="table-caption"><span id="source-count" role="status" aria-live="polite">4 fuentes en esta colección</span><span>Datos de demostración · Noviembre 2026</span></div><div class="table-wrapper"><table class="documents-table"><caption class="sr-only">Documentos y registros disponibles para el asistente</caption><thead><tr><th scope="col">Documento o registro</th><th scope="col">Tipo</th><th scope="col">Fragmentos</th><th scope="col">Estado</th><th scope="col"><span class="sr-only">Abrir</span></th></tr></thead><tbody id="document-rows"></tbody></table><div class="empty-state" id="empty-sources" hidden>No hay fuentes que coincidan con tu búsqueda.<br><button class="button" type="button" data-action="clear-search" style="margin-top:14px">Limpiar filtros</button></div></div>
+        <div class="library-note">${icon('shield')}<div><strong>El asistente responde a partir de esta colección</strong><p>Cada respuesta enlaza con el documento y el fragmento que la justifican. Si los datos no contienen la respuesta, Ágora lo indica.</p></div></div>
+      </div>`, 'sources', 'Mis fuentes');
+    }
+    function documentPage() {
+      return appShell(`<div class="content-page"><a href="#fuentes" class="back-link">${icon('back')} Volver a mis fuentes</a><div id="document-view"></div></div>`, 'sources', 'Detalle de fuente');
+    }
+    function section(id, number, title, note, content) {
+      return `<section class="mock-section" id="${id}" aria-labelledby="title-${id}"><div class="section-heading"><h2 id="title-${id}"><span class="section-number">${number}</span>${title}</h2><span class="section-note">${note}</span></div>${content}</section>`;
+    }
+    document.getElementById('mockups').innerHTML =
+      section('conversacion', '01', 'Una conversación con evidencia', 'Tres consultas · Fecha, resultados y nuevas Cortes', chatPage('main')) +
+      section('sin-evidencia', '02', 'Cuando los datos no tienen la respuesta', 'La misma conversación · Una pregunta sin respaldo', chatPage('unknown', true)) +
+      section('fuentes', '03', 'La colección documental', 'Busca, filtra y consulta las fuentes', libraryPage()) +
+      section('documento', '04', 'Del dato a su origen', 'Documento completo · Fragmento citado destacado', documentPage());
+
+    function renderDocuments() {
+      const query = normalize(document.getElementById('source-search').value.trim());
+      const type = document.getElementById('type-filter').value;
+      const sort = document.getElementById('sort-sources').value;
+      const matches = documents.filter(doc => (!type || doc.type === type) && normalize([doc.id, doc.title, doc.type, doc.description, ...doc.fragments.map(fragment => fragment.text)].join(' ')).includes(query));
+      if (sort === 'title') matches.sort((a,b) => a.title.localeCompare(b.title, 'es'));
+      document.getElementById('document-rows').innerHTML = matches.map(doc => `<tr><td><button type="button" class="document-name" data-doc="${doc.id}"><span class="file-icon">${icon('doc')}</span><span><strong>${doc.title}</strong><small>${doc.id} · ${doc.format} · Fuente ficticia</small></span></button></td><td><span class="type-badge">${doc.type}</span></td><td>${doc.count} fragmentos</td><td><span class="available"><span class="dot"></span> Disponible</span></td><td><button type="button" class="icon-button" data-doc="${doc.id}" aria-label="Abrir ${doc.title}">${icon('chevron')}</button></td></tr>`).join('');
+      document.getElementById('source-count').textContent = `${matches.length} ${matches.length === 1 ? 'fuente' : 'fuentes'}${query || type ? ' encontradas' : ' en esta colección'}`;
+      document.getElementById('empty-sources').hidden = matches.length > 0;
+    }
+    let selectedDocument = 'DOC-002';
+    let selectedFragment = 'guia-resultados';
+    let activeTab = 'content';
+    function renderDocument() {
+      const doc = findDocument(selectedDocument);
+      const fragment = findFragment(selectedDocument, selectedFragment);
+      document.getElementById('document-view').innerHTML = `<div class="document-title"><span class="file-icon">${icon('doc')}</span><div><h3>${doc.title}</h3><p class="page-subtitle">${doc.id} <span style="margin:0 5px">/</span> ${doc.type} de demostración</p></div><button type="button" class="button" data-action="download-document">${icon('download')} Descargar</button></div>
+        <div class="document-tabs" role="tablist" aria-label="Vista del documento"><button type="button" id="tab-content" role="tab" aria-selected="${activeTab === 'content'}" aria-controls="document-panel" class="document-tab" data-tab="content" tabindex="${activeTab === 'content' ? '0' : '-1'}">Documento completo</button><button type="button" id="tab-fragments" role="tab" aria-selected="${activeTab === 'fragments'}" aria-controls="document-panel" class="document-tab" data-tab="fragments" tabindex="${activeTab === 'fragments' ? '0' : '-1'}">Fragmentos <small>${doc.count}</small></button></div>
+        <div class="document-layout"><div id="document-panel" role="tabpanel" aria-labelledby="tab-${activeTab}" tabindex="0">${activeTab === 'content' ? `<div class="document-paper"><div class="paper-eyebrow">Colección Generales 2026 · Fuente ficticia</div><h4>${doc.title}</h4><p class="paper-intro">${doc.description}</p>${doc.fragments.map(item => `<section class="document-fragment ${item.id === selectedFragment ? 'is-highlighted' : ''}" id="detail-${item.id}">${item.id === selectedFragment ? `<div class="highlight-label">${icon('link')} Fragmento seleccionado · ${item.location}</div>` : ''}<h5>${item.title}</h5><p>${item.text}</p></section>`).join('')}<div class="paper-footer"><span>${doc.id} · Versión de demostración</span><span>Fin del documento</span></div></div>` : `<div class="fragment-list">${doc.fragments.map(item => `<article class="fragment-card"><small>${doc.id} / ${item.id}</small><h5>${item.title}</h5><p>«${item.text}»</p><button type="button" class="button" data-doc="${doc.id}" data-fragment="${item.id}" style="margin-top:12px">Ver en el documento ${icon('arrow')}</button></article>`).join('')}</div>`}</div>
+        <aside class="document-aside" aria-label="Información de la fuente"><div class="metadata-card"><h4>Información de la fuente</h4><dl><div><dt>Identificador</dt><dd>${doc.id}</dd></div><div><dt>Tipo de fuente</dt><dd>${doc.type}</dd></div><div><dt>Formato original</dt><dd>${doc.format}</dd></div><div><dt>Fecha en la demo</dt><dd>${doc.date}</dd></div><div><dt>Fragmentos</dt><dd>${doc.count} disponibles</dd></div><div><dt>Estado</dt><dd><span class="available"><span class="dot"></span> Disponible</span></dd></div></dl></div><div class="document-help">${icon('link')} El fragmento seleccionado permite comprobar el contexto de la cita.${fragment ? `<br><strong style="font-weight:500">${fragment.location}</strong>` : ''}<a href="#conversacion">Volver a la conversación ${icon('arrow')}</a></div></aside></div>`;
+    }
+    renderDocuments();
+    renderDocument();
+
+    let toastTimer;
+    function toast(message) {
+      clearTimeout(toastTimer);
+      const element = document.getElementById('toast');
+      element.textContent = message;
+      element.classList.add('visible');
+      toastTimer = setTimeout(() => element.classList.remove('visible'), 3200);
+    }
+    function download(filename, text, type = 'text/plain;charset=utf-8') {
+      const url = URL.createObjectURL(new Blob([text], {type}));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+    function documentText(doc) {
+      return `ESCENARIO FICTICIO · DATOS INVENTADOS PARA UNA PRÁCTICA\n\n${doc.id} · ${doc.title}\nTipo: ${doc.type}\nFecha de demostración: ${doc.date}\n\n${doc.description}\n\n${doc.fragments.map(item => `${item.title}\n${item.text}`).join('\n\n')}`;
+    }
+    async function copyText(value) {
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(value);
+        } else {
+          const field = document.createElement('textarea');
+          field.value = value;
+          field.style.position = 'fixed';
+          field.style.opacity = '0';
+          document.body.appendChild(field);
+          field.select();
+          const copied = document.execCommand('copy');
+          field.remove();
+          if (!copied) throw new Error('No se pudo copiar');
+        }
+        toast('Respuesta y fuentes copiadas');
+      } catch {
+        toast('El navegador no permite copiar. Puedes seleccionar el texto de la respuesta.');
+      }
+    }
+    // Solo las consultas de demostración tienen respuesta; el resto se rechaza.
+    function chooseAnswer(question) {
+      const query = normalize(question).replace(/[¿?.,;:!¡]/g, '').replace(/\s+/g, ' ').trim();
+      const allowed = [
+        [conversations[0].question, '¿Cuál es el horario de votación?', '¿Cuándo son las elecciones?', '¿A qué hora se vota?'],
+        [conversations[1].question, '¿A qué hora hay resultados?', '¿Cuándo salen los primeros resultados?'],
+        [conversations[2].question, '¿Cuándo se constituyen las Cortes?', '¿Cuándo se constituyen las nuevas Cortes?']
+      ];
+      const index = allowed.findIndex(questions => questions.some(item => normalize(item).replace(/[¿?.,;:!¡]/g, '').replace(/\s+/g, ' ').trim() === query));
+      return index === -1 ? null : conversations[index];
+    }
+    document.addEventListener('click', event => {
+      const source = event.target.closest('[data-doc]');
+      if (source) {
+        event.preventDefault();
+        const doc = findDocument(source.dataset.doc);
+        if (!doc) return;
+        selectedDocument = doc.id;
+        selectedFragment = source.dataset.fragment || doc.fragments[0].id;
+        activeTab = 'content';
+        renderDocument();
+        document.getElementById('documento').scrollIntoView({behavior: 'smooth', block: 'start'});
+        const heading = document.querySelector('#document-view h3');
+        heading.setAttribute('tabindex', '-1');
+        heading.focus({preventScroll:true});
+        toast(`Fuente abierta: ${doc.id} · ${findFragment(doc.id, selectedFragment).location}`);
+        return;
+      }
+      const tab = event.target.closest('[data-tab]');
+      if (tab) {
+        activeTab = tab.dataset.tab;
+        renderDocument();
+        document.getElementById(`tab-${activeTab}`).focus({preventScroll:true});
+        return;
+      }
+      const suggestion = event.target.closest('[data-question]');
+      if (suggestion) {
+        const form = suggestion.closest('.composer-area').querySelector('form');
+        form.elements.question.value = suggestion.dataset.question;
+        form.requestSubmit();
+        return;
+      }
+      const action = event.target.closest('[data-action]');
+      if (!action) return;
+      switch (action.dataset.action) {
+        case 'copy-answer': {
+          const message = action.closest('.assistant-content');
+          const text = message.querySelector('.answer').innerText + '\n\n' + Array.from(message.querySelectorAll('.source-row')).map(row => row.innerText).join('\n\n');
+          copyText('DATOS FICTICIOS DE DEMOSTRACIÓN\n\n' + text);
+          break;
+        }
+        case 'download-document': {
+          const doc = findDocument(selectedDocument);
+          if (doc.format === 'JSON') {
+            download(`${doc.id}-ficticio.json`, JSON.stringify({aviso:'Datos ficticios de demostración', ...doc}, null, 2), 'application/json;charset=utf-8');
+          } else {
+            download(`${doc.id}-ficticio.txt`, documentText(doc));
+          }
+          toast('Fuente ficticia descargada');
+          break;
+        }
+        case 'download-collection':
+          download('agora-coleccion-ficticia.json', JSON.stringify({aviso:'Todos los datos son ficticios. Colección de demostración.', documents}, null, 2), 'application/json;charset=utf-8');
+          toast('Colección ficticia descargada');
+          break;
+        case 'clear-search':
+          document.getElementById('source-search').value = '';
+          document.getElementById('type-filter').value = '';
+          renderDocuments();
+          document.getElementById('source-search').focus();
+          break;
+        case 'new-chat': {
+          const stream = document.getElementById('messages-main');
+          stream.innerHTML = `<div class="library-note">${icon('chat')}<div><strong>Una nueva conversación</strong><p>Puedes probar las preguntas sugeridas o escribir otra consulta. Esta maqueta dispone de respuestas predefinidas para las tres consultas de ejemplo.</p></div></div>`;
+          document.querySelector('#conversacion .chat-intro p').textContent = 'Una conversación basada en tu colección · 0 consultas';
+          document.getElementById('conversacion').scrollIntoView({behavior:'smooth'});
+          document.getElementById('input-main').focus({preventScroll:true});
+          toast('Nueva conversación lista');
+          break;
+        }
+      }
+    });
+    document.addEventListener('submit', event => {
+      const form = event.target.closest('form[data-chat]');
+      if (!form) return;
+      event.preventDefault();
+      const question = form.elements.question.value.trim();
+      if (!question) return;
+      const stream = document.getElementById(`messages-${form.dataset.chat}`);
+      const answer = chooseAnswer(question);
+      stream.querySelector('.library-note')?.remove();
+      stream.insertAdjacentHTML('beforeend', answer ? messagePair(answer, question) : unknownPair(question));
+      form.reset();
+      const count = stream.querySelectorAll('.message-pair').length;
+      form.closest('.app-main').querySelector('.chat-intro p').textContent = `Una conversación basada en tu colección · ${count} ${count === 1 ? 'consulta' : 'consultas'}`;
+      form.closest('.app-main').querySelector('.chat-announcement').textContent = answer ? 'Respuesta añadida con sus fuentes documentales.' : 'Respuesta añadida: no consta información suficiente en los documentos.';
+      stream.lastElementChild.scrollIntoView({behavior:'smooth', block:'center'});
+    });
+    document.getElementById('source-search').addEventListener('input', renderDocuments);
+    document.getElementById('type-filter').addEventListener('change', renderDocuments);
+    document.getElementById('sort-sources').addEventListener('change', renderDocuments);
+    document.addEventListener('keydown', event => {
+      const tab = event.target.closest('[role="tab"]');
+      if (!tab || !['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+      event.preventDefault();
+      activeTab = event.key === 'Home' ? 'content' : event.key === 'End' ? 'fragments' : activeTab === 'content' ? 'fragments' : 'content';
+      renderDocument();
+      document.getElementById(`tab-${activeTab}`).focus({preventScroll:true});
+    });
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(entries => {
+        const entry = entries.filter(item => item.isIntersecting).sort((a,b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (entry) document.querySelectorAll('.gallery-nav a').forEach(link => {
+          if (link.hash === '#' + entry.target.id) link.setAttribute('aria-current','location');
+          else link.removeAttribute('aria-current');
+        });
+      }, {rootMargin:'-80px 0px -65% 0px', threshold:0});
+      document.querySelectorAll('.mock-section').forEach(element => observer.observe(element));
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+# Credenciales y configuración local
+.env
+.env.*
+!.env.example
+
+# Python y uv
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.uv-cache/
+
+# Node.js y compilaciones de Vite
+node_modules/
+dist/
+dist-ssr/
+
+# Base de datos y archivos auxiliares de SQLite
+data/
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+
+# Archivos temporales y registros
+*.log
+.DS_Store
+Thumbs.db
