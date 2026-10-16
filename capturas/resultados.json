@@ -1,0 +1,214 @@
+{
+  "fecha": "2026-10-16T11:14:28.722Z",
+  "url": "http://127.0.0.1:5173/",
+  "viewport": {
+    "width": 1366,
+    "height": 900
+  },
+  "documentos": {
+    "documentos": [
+      {
+        "id": "DOC-001",
+        "titulo": "Convocatoria de elecciones generales",
+        "tipo": "Registro",
+        "formato": "JSON",
+        "fecha": "02/11/2026",
+        "descripcion": "Registro de demostración que recoge la fecha de la convocatoria y su ámbito.",
+        "ficticio": true,
+        "fragmentos": [
+          {
+            "id": "convocatoria-fecha",
+            "titulo": "01. Fecha de celebración",
+            "ubicacion": "Registro 01 · campo «fecha»",
+            "texto": "Las elecciones generales se celebrarán el domingo 29 de noviembre de 2026."
+          },
+          {
+            "id": "convocatoria-ambito",
+            "titulo": "02. Ámbito de la convocatoria",
+            "ubicacion": "Registro 01 · campo «ámbito»",
+            "texto": "La convocatoria comprende la elección de representantes al Congreso de los Diputados y al Senado en todo el territorio español."
+          }
+        ],
+        "numero_fragmentos": 2,
+        "estado": "disponible"
+      },
+      {
+        "id": "DOC-002",
+        "titulo": "Guía de la jornada electoral",
+        "tipo": "Guía",
+        "formato": "TXT",
+        "fecha": "03/11/2026",
+        "descripcion": "Horarios de votación, cierre de los colegios y publicación del recuento en el escenario de práctica.",
+        "ficticio": true,
+        "fragmentos": [
+          {
+            "id": "guia-horario",
+            "titulo": "01. Horario de votación",
+            "ubicacion": "Apartado 1 · Horario",
+            "texto": "La votación se desarrollará de 09:00 a 20:00 horas, según la hora local de cada colegio electoral."
+          },
+          {
+            "id": "guia-cierre",
+            "titulo": "02. Cierre de las mesas",
+            "ubicacion": "Apartado 2 · Cierre",
+            "texto": "Al finalizar la votación, cada mesa iniciará el escrutinio de los votos depositados. El cierre de los colegios de Canarias se producirá a las 21:00, hora peninsular."
+          },
+          {
+            "id": "guia-resultados",
+            "titulo": "03. Publicación de los primeros resultados",
+            "ubicacion": "Apartado 3 · Resultados",
+            "texto": "Los primeros resultados provisionales procedentes del recuento se publicarán a partir de las 21:00, hora peninsular, una vez cerrados todos los colegios electorales. La hora es orientativa y depende del avance del escrutinio."
+          },
+          {
+            "id": "guia-provisionales",
+            "titulo": "04. Carácter provisional del recuento",
+            "ubicacion": "Apartado 4 · Alcance",
+            "texto": "Los datos publicados durante la noche electoral son provisionales. La proclamación de resultados oficiales se realizará tras completar las actuaciones previstas en el calendario electoral de esta demostración."
+          }
+        ],
+        "numero_fragmentos": 4,
+        "estado": "disponible"
+      },
+      {
+        "id": "DOC-003",
+        "titulo": "Calendario de constitución de las Cortes",
+        "tipo": "Calendario",
+        "formato": "TXT",
+        "fecha": "04/11/2026",
+        "descripcion": "Hitos institucionales previstos en la convocatoria ficticia, desde la proclamación de resultados hasta la sesión constitutiva.",
+        "ficticio": true,
+        "fragmentos": [
+          {
+            "id": "calendario-proclamacion",
+            "titulo": "01. Proclamación de resultados oficiales",
+            "ubicacion": "Hito 07 · Proclamación",
+            "texto": "La proclamación de los resultados oficiales precederá a las sesiones constitutivas del Congreso de los Diputados y del Senado."
+          },
+          {
+            "id": "calendario-cortes",
+            "titulo": "02. Constitución de las nuevas Cortes",
+            "ubicacion": "Hito 08 · Sesión constitutiva",
+            "texto": "22 de diciembre de 2026, a las 10:00 horas: sesiones constitutivas del Congreso de los Diputados y del Senado, una vez proclamados los resultados oficiales."
+          }
+        ],
+        "numero_fragmentos": 2,
+        "estado": "disponible"
+      },
+      {
+        "id": "DOC-004",
+        "titulo": "Cómo interpretar los datos del escrutinio",
+        "tipo": "Ficha",
+        "formato": "TXT",
+        "fecha": "05/11/2026",
+        "descripcion": "Glosario de los campos de los registros de resultados y de su actualización.",
+        "ficticio": true,
+        "fragmentos": [
+          {
+            "id": "ficha-votos",
+            "titulo": "01. Votos contabilizados",
+            "ubicacion": "Ficha 04 · Votos",
+            "texto": "El campo votos contabilizados recoge los votos incorporados al recuento en el momento de la actualización."
+          },
+          {
+            "id": "ficha-escanos",
+            "titulo": "02. Escaños",
+            "ubicacion": "Ficha 04 · Escaños",
+            "texto": "El campo escaños muestra la asignación provisional de representantes a cada candidatura según los votos contabilizados."
+          },
+          {
+            "id": "ficha-actualizacion",
+            "titulo": "03. Actualización del registro",
+            "ubicacion": "Ficha 04 · Actualización",
+            "texto": "Cada registro incluye la hora de actualización y el porcentaje de mesas escrutadas. Los valores pueden cambiar mientras avance el recuento."
+          }
+        ],
+        "numero_fragmentos": 3,
+        "estado": "disponible"
+      }
+    ],
+    "total": 4,
+    "total_fragmentos": 11,
+    "datos_ficticios": true
+  },
+  "consultas": [
+    {
+      "pregunta": "¿Qué día y en qué horario se celebran las próximas elecciones generales en España?",
+      "respuesta": "Según la documentación ficticia cargada, las elecciones generales se celebrarán el domingo 29 de noviembre de 2026. [1] La votación se desarrollará de 09:00 a 20:00, según la hora local de cada colegio electoral. [2]",
+      "fuentes": [
+        {
+          "id": 1,
+          "documento_id": "DOC-001",
+          "titulo": "Convocatoria de elecciones generales",
+          "fragmento_id": "convocatoria-fecha",
+          "ubicacion": "Registro 01 · campo «fecha»",
+          "fragmento": "Las elecciones generales se celebrarán el domingo 29 de noviembre de 2026.",
+          "similitud": 0.6729
+        },
+        {
+          "id": 2,
+          "documento_id": "DOC-002",
+          "titulo": "Guía de la jornada electoral",
+          "fragmento_id": "guia-horario",
+          "ubicacion": "Apartado 1 · Horario",
+          "fragmento": "La votación se desarrollará de 09:00 a 20:00 horas, según la hora local de cada colegio electoral.",
+          "similitud": 0.4651
+        }
+      ],
+      "estado": "con_fuentes",
+      "modelo_utilizado": true,
+      "datos_ficticios": true,
+      "captura": "capturas/01-fecha-horario.png",
+      "citas_verificadas": true
+    },
+    {
+      "pregunta": "¿A partir de qué hora se podrán conocer los primeros resultados reales?",
+      "respuesta": "Según la documentación ficticia cargada, los primeros resultados provisionales procedentes del recuento se publicarán a partir de las 21:00, hora peninsular; la hora es orientativa y depende del avance del escrutinio. [1]",
+      "fuentes": [
+        {
+          "id": 1,
+          "documento_id": "DOC-002",
+          "titulo": "Guía de la jornada electoral",
+          "fragmento_id": "guia-resultados",
+          "ubicacion": "Apartado 3 · Resultados",
+          "fragmento": "Los primeros resultados provisionales procedentes del recuento se publicarán a partir de las 21:00, hora peninsular, una vez cerrados todos los colegios electorales. La hora es orientativa y depende del avance del escrutinio.",
+          "similitud": 0.66
+        }
+      ],
+      "estado": "con_fuentes",
+      "modelo_utilizado": true,
+      "datos_ficticios": true,
+      "captura": "capturas/02-primeros-resultados.png",
+      "citas_verificadas": true
+    },
+    {
+      "pregunta": "Una vez proclamados los resultados oficiales, ¿cuándo se constituyen las nuevas Cortes?",
+      "respuesta": "Según la documentación ficticia cargada, una vez proclamados los resultados oficiales, las nuevas Cortes se constituyen el 22 de diciembre de 2026 a las 10:00, con las sesiones constitutivas del Congreso de los Diputados y del Senado. [1]",
+      "fuentes": [
+        {
+          "id": 1,
+          "documento_id": "DOC-003",
+          "titulo": "Calendario de constitución de las Cortes",
+          "fragmento_id": "calendario-cortes",
+          "ubicacion": "Hito 08 · Sesión constitutiva",
+          "fragmento": "22 de diciembre de 2026, a las 10:00 horas: sesiones constitutivas del Congreso de los Diputados y del Senado, una vez proclamados los resultados oficiales.",
+          "similitud": 0.6968
+        }
+      ],
+      "estado": "con_fuentes",
+      "modelo_utilizado": true,
+      "datos_ficticios": true,
+      "captura": "capturas/03-nuevas-cortes.png",
+      "citas_verificadas": true
+    },
+    {
+      "pregunta": "¿Quién va a gobernar tras las próximas elecciones generales?",
+      "respuesta": "No consta en la documentación disponible.",
+      "fuentes": [],
+      "estado": "no_consta",
+      "modelo_utilizado": false,
+      "datos_ficticios": true,
+      "captura": "capturas/04-no-consta.png",
+      "citas_verificadas": true
+    }
+  ]
+}
